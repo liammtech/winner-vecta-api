@@ -13,26 +13,26 @@ const winnerApi = axios.create({
 
 // Projects
 
-const filterProjects = async (projectNumberList) => {
+const filterWinnerProjects = async (projectNumberList) => {
     const response = await winnerApi.post(`/projects/filter`, { projectNumberList });
     return response.data;
 };
 
-const getProject = async (projectGuid, shopGuid) => {
+const getWinnerProject = async (projectGuid, shopGuid) => {
     const response = await winnerApi.get(`/projects/${projectGuid}`, {
         params: { shopGuid }
     });
     return response.data;
 }
 
-const updateProject = async (projectGuid, shopGuid, projectData) => {
+const updateWinnerProject = async (projectGuid, shopGuid, projectData) => {
     const response = await winnerApi.put(`/projects/${projectGuid}`, projectData, {
         params: { shopGuid }
     });
     return response.data;
 };
 
-const createProject = async (projectGuid, shopGuid, projectData) => {
+const createWinnerProject = async (projectGuid, shopGuid, projectData) => {
     const response = await winnerApi.post(`/projects`, projectData, {
         params: { shopGuid }
     });
@@ -41,26 +41,26 @@ const createProject = async (projectGuid, shopGuid, projectData) => {
 
 // Project GUIDs
 
-const getProjectTypeGuids = async () => {
+const getWinnerProjectTypeGuids = async () => {
     const response = await winnerApi.get(`/projects/types`);
     return response.data;
 };
 
-const getProjectStatusGuids = async () => {
+const getWinnerProjectStatusGuids = async () => {
     const response = await winnerApi.get(`/projects/statuses`);
     return response.data;
 };
 
 // Shops
 
-const getShops = async () => {
+const getWinnerShops = async () => {
     const response = await winnerApi.get(`/shops`);
     return response.data;
 };
 
 // User
 
-const getCompanyUsers = async () => {
+const getWinnerCompanyUsers = async () => {
     const response = await winnerApi.get(`/users`);
     return response.data;
 };
@@ -68,12 +68,12 @@ const getCompanyUsers = async () => {
 // Export endpoint calls
 
 modules.exports = {
-    filterProjects,
-    getProject,
-    updateProject,
-    createProject,
-    getProjectTypeGuids,
-    getProjectStatusGuids,
-    getShops,
-    getCompanyUsers
+    filterWinnerProjects,
+    getWinnerProject,
+    updateWinnerProject,
+    createWinnerProject,
+    getWinnerProjectTypeGuids,
+    getWinnerProjectStatusGuids,
+    getWinnerShops,
+    getWinnerCompanyUsers
 };
