@@ -64,3 +64,16 @@ const getCompanyUsers = async () => {
     const response = await winnerApi.get(`/users`);
     return response.data;
 };
+
+// Export endpoint calls
+
+modules.exports = {
+    filterProjects,
+    getProject,
+    updateProject,
+    createProject,
+    getProjectTypeGuids,
+    getProjectStatusGuids,
+    getShops,
+    getCompanyUsers
+};
