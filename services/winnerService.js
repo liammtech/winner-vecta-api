@@ -50,3 +50,10 @@ const getProjectStatusGuids = async () => {
     const response = await winnerApi.get(`/projects/statuses`);
     return response.data;
 };
+
+// Shops
+
+const getShops = async () => {
+    const response = await winnerApi.get(`/shops`);
+    return response.data;
+};
