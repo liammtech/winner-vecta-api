@@ -119,8 +119,8 @@ const getVectaWorkflowStage = async (id) => {
 module.exports = {
     getVectaCompanyById,
     getVectaCompanyByAccountNo,
-    getVectaProject,
-    createVectaProject,
+    getVectaProject, //
+    createVectaProject, //
     updateVectaProject,
     searchVectaProject,
     getVectaUser,

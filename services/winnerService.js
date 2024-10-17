@@ -65,15 +65,21 @@ const getWinnerCompanyUsers = async () => {
     return response.data;
 };
 
+const getWinnerUserById = async (id) => {
+    const response = await winnerApi.get(`/users/${id}`);
+    return response.data;
+};
+
 // Export endpoint calls
 
-modules.exports = {
-    filterWinnerProjects,
-    getWinnerProject,
-    updateWinnerProject,
+module.exports = {
+    filterWinnerProjects, 
+    getWinnerProject, //
+    updateWinnerProject, //
     createWinnerProject,
     getWinnerProjectTypeGuids,
-    getWinnerProjectStatusGuids,
-    getWinnerShops,
-    getWinnerCompanyUsers
+    getWinnerProjectStatusGuids, //
+    getWinnerShops, //
+    getWinnerCompanyUsers,
+    getWinnerUserById //
 };
