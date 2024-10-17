@@ -1,2 +1,14 @@
-.env
+# Ignore all .txt files
+*.txt
+
+# Ignore any environment files
+*.env
+
+# Ignore node modules
 node_modules
+
+# Ignore miscellaneous scripts (these are basically drafts/various test versions etc.)
+prev-scripts
+
+# Ignore json
+json
