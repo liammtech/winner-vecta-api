@@ -11,7 +11,7 @@ const winnerApi = axios.create({
     }
 });
 
-// Projects
+// Requests - Projects
 
 const filterWinnerProjects = async (projectNumberList) => {
     const response = await winnerApi.post(`/projects/filter`, { projectNumberList });
@@ -39,7 +39,7 @@ const createWinnerProject = async (projectGuid, shopGuid, projectData) => {
     return response.data;
 };
 
-// Project GUIDs
+// Requests - Project GUIDs
 
 const getWinnerProjectTypeGuids = async () => {
     const response = await winnerApi.get(`/projects/types`);
@@ -51,14 +51,14 @@ const getWinnerProjectStatusGuids = async () => {
     return response.data;
 };
 
-// Shops
+// Requests - Shops
 
 const getWinnerShops = async () => {
     const response = await winnerApi.get(`/shops`);
     return response.data;
 };
 
-// User
+// Requests - Users
 
 const getWinnerCompanyUsers = async () => {
     const response = await winnerApi.get(`/users`);
