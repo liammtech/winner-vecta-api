@@ -57,3 +57,10 @@ const getShops = async () => {
     const response = await winnerApi.get(`/shops`);
     return response.data;
 };
+
+// User
+
+const getCompanyUsers = async () => {
+    const response = await winnerApi.get(`/users`);
+    return response.data;
+};
