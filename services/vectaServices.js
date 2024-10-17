@@ -38,20 +38,12 @@ const requestWithAuth = async (options) => {
 const getVectaCompanyById = async (accountNo) => {
     const response = await requestWithAuth({
         method: 'GET',
-        url: `/companies/accountno/${id}`
-    });
-    return response.data;
-};
-
-const getCompanyById = async (accountNo) => {
-    const response = await requestWithAuth({
-        method: 'GET',
         url: `/companies/${accountNo}`
     });
     return response.data;
 };
 
-const getCompanyByAccountNo = async (id) => {
+const getVectaCompanyByAccountNo = async (id) => {
     const response = await requestWithAuth({
         method: 'GET',
         url: `/companies/accountno/${id}`
@@ -61,7 +53,7 @@ const getCompanyByAccountNo = async (id) => {
 
 // Requests - Projects
 
-const getProject = async (id) => {
+const getVectaProject = async (id) => {
     const response = await requestWithAuth({
         method: 'GET',
         url: `/projects/${id}`
@@ -69,7 +61,7 @@ const getProject = async (id) => {
     return response.data;
 };
 
-const addProject = async (projectData) => {
+const createVectaProject = async (projectData) => {
     const response = await requestWithAuth({
         method: 'POST',
         url: '/projects',
@@ -78,7 +70,7 @@ const addProject = async (projectData) => {
     return response.data;
 };
 
-const updateProject = async (id, projectData) => {
+const updateVectaProject = async (id, projectData) => {
     const response = await requestWithAuth({
         method: 'PUT',
         url: `/projects/${id}`,
@@ -87,7 +79,7 @@ const updateProject = async (id, projectData) => {
     return response.data;
 };
 
-const searchProject = async (id, projectData) => {
+const searchVectaProject = async (id, projectData) => {
     const response = await requestWithAuth({
         method: 'POST',
         url: `/projects/search`,
@@ -98,7 +90,7 @@ const searchProject = async (id, projectData) => {
 
 // Requests - Users
 
-const getUser = async (id) => {
+const getVectaUser = async (id) => {
     const response = await requestWithAuth({
         method: 'GET',
         url: `/users/${id}` 
@@ -106,7 +98,7 @@ const getUser = async (id) => {
     return response.data;
 };
 
-const searchUser = async (userData) => {
+const searchVectaUsers = async (userData) => {
     const response = await requestWithAuth({
         method: 'POST',
         url: `/users/search`
@@ -116,10 +108,22 @@ const searchUser = async (userData) => {
 
 // Requests - Workflows
 
-const getWorkflowStage = async (id) => {
+const getVectaWorkflowStage = async (id) => {
     const response = await requestWithAuth({
         method: `GET`,
         url: `/workflowstages/${id}`
     })
     return response.data;
+};
+
+module.exports = {
+    getVectaCompanyById,
+    getVectaCompanyByAccountNo,
+    getVectaProject,
+    createVectaProject,
+    updateVectaProject,
+    searchVectaProject,
+    getVectaUser,
+    searchVectaUsers,
+    getVectaWorkflowStage
 };
