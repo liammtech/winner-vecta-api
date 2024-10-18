@@ -1,0 +1,15 @@
+{
+    "delay": "2500",
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "watch": [
+      "*.*"
+    ],
+    "ext": "js,json",
+    "events": {
+      "crash": "sh -c 'lsof -i :${PORT:-3000} -t | xargs kill'",
+      "start": "clear"
+    }
+}

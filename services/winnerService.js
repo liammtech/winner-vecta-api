@@ -4,7 +4,7 @@ const config = require('../config/config')
 // API Interface
 
 const winnerApi = axios.create({
-    baseUrl: config.winner.apiUrl,
+    baseURL: config.winner.apiUrl,
     headers: {
         'apiKey': config.winner.apiKey,
         'Content-Type': 'application/json'
