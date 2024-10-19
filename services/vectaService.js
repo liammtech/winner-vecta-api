@@ -34,14 +34,14 @@ const vectaApi = axios.create({
 
 const requestWithAuth = async (options) => {
     if (!vectaToken) await authenticate();
-    
-    const headers = { 
+
+    const headers = {
         'Authorization': `Bearer ${vectaToken}`,
         'Content-Type': 'application/json',
         'x-api-key': config.vecta.apiKey,
         'User-Agent': 'insomnia/9.3.2'
     };
-    
+
     // Log the full URL for debugging
     const fullUrl = `${vectaApi.defaults.baseURL}${options.url}`;
     console.log('Making request with options:', {
@@ -92,21 +92,62 @@ const getVectaCompanyByAccountNo = async (id) => {
 // Requests - Projects
 
 const getVectaProject = async (id) => {
-    const response = await requestWithAuth({
-        method: 'GET',
-        url: `/projects/${id}`
-    });
-    return response.data;
+
+    try {
+        const response = await requestWithAuth({
+            method: 'GET',
+            url: `/projects/${id}`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log('Created Vecta project data:', response);
+        return response;
+    } catch (error) {
+        console.error('Error in getVectaProject:', {
+            message: error.message,
+            response: error.response ? {
+                status: error.response.status,
+                data: error.response.data
+            } : 'No response'
+        });
+
+        throw error;
+    }
 };
 
 const createVectaProject = async (projectData) => {
-    const response = await requestWithAuth({
-        method: 'POST',
-        url: '/projects',
-        data: projectData
-    });
-    return response.data;
+    console.log('Project Data being sent:', projectData);
+
+    try {
+        const responseData = await requestWithAuth({
+            method: 'POST',
+            url: '/projects',
+            data: projectData,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Extract the project ID from the response data
+        const projectId = responseData.id;
+        console.log('Created Vecta project ID:', projectId);
+
+        return projectId;  // Return the project ID
+    } catch (error) {
+        console.error('Error in createVectaProject:', {
+            message: error.message,
+            response: error.response ? {
+                status: error.response.status,
+                data: error.response.data
+            } : 'No response'
+        });
+
+        throw error;
+    }
 };
+
 
 const updateVectaProject = async (id, projectData) => {
     const response = await requestWithAuth({
@@ -131,17 +172,16 @@ const searchVectaProject = async (id, projectData) => {
 const getVectaUser = async (id) => {
     const response = await requestWithAuth({
         method: 'GET',
-        url: `/users/${id}` 
+        url: `/users/${id}`
     });
     return response.data;
 };
 
-const searchVectaUsers = async (userData) => {
-    console.log('Searching for Vecta users with data:', userData); // Log the data being sent
+const searchVectaUserByName = async (userName) => {
 
     const formattedData = {
         searchField: "DisplayName",
-        searchText: userData,
+        searchText: userName,
         pageSize: 50,
         pageNumber: 1
     };
@@ -156,11 +196,23 @@ const searchVectaUsers = async (userData) => {
             }
         });
 
-        console.log('Response from Vecta API:', response); // Log the entire response
-        return response;  // Return the full response
+        let vectaUserId = null
+
+        if (response.length === 1) {
+            vectaUserId = response[0].id;
+            // console.log(`Vecta user GUID is: ${vectaUserId}`);
+        } else if (response.length > 1) {
+            console.log("Warning: multiple matches for searchVectaUserByName() criteria. Defaulting to IT user.");
+            vectaUserId = vecta.itUserId;
+        } else if (response.length === 0) {
+            console.log("No matches for searchVectaUserByName() criteria. Defaulting to IT user.")
+            vectaUserId = config.vecta.itUserId;
+        }
+
+        return vectaUserId;  // Return the full response
     } catch (error) {
         // Handle the error appropriately
-        console.error('Error in searchVectaUsers:', {
+        console.error('Error in searchVectaUserByName:', {
             message: error.message,
             response: error.response ? {
                 status: error.response.status,
@@ -172,8 +224,6 @@ const searchVectaUsers = async (userData) => {
         throw error;  // Rethrow the error for upstream handling
     }
 };
-
-
 
 // Requests - Workflows
 
@@ -194,6 +244,6 @@ module.exports = {
     updateVectaProject,
     searchVectaProject,
     getVectaUser,
-    searchVectaUsers,
+    searchVectaUserByName,
     getVectaWorkflowStage
 };
