@@ -18,17 +18,18 @@ const handleProjectCreated = async (req, res) => {
             console.log("Invalid webhook data")
             return;
         } else {
-            console.log("Webhook data is valid")
+            console.log("Webhook data is valid - Project-create route")
         }
 
         // Get new Winner project's projectGuid and shopGuid from webhook subject
         const { winnerProjectGuid, winnerShopGuid } = await parseWebhookData(req.body);
 
         console.log(`Winner project id is: ${winnerProjectGuid}`);
-        console.log(`Winner project id is: ${winnerShopGuid}`);
+        console.log(`Winner shop id is: ${winnerShopGuid}`);
 
         // Get Winner Project data
         const winnerProjectData = await getWinnerProject(winnerProjectGuid, winnerShopGuid);
+        console.log(`Winner project data is most certainly: ${JSON.stringify(winnerProjectData)}`)
 
         // Get Winner users
         const winnerUsers = await getWinnerCompanyUsers();
@@ -40,9 +41,6 @@ const handleProjectCreated = async (req, res) => {
         // If there is no match, default to "IT"
         const vectaUserId = await searchVectaUserByName(winnerProjectUser);
         console.log(`Vecta user GUID is: ${vectaUserId}`);
-        
-        // Confirm project creation success to Winner
-        res.status(200).json({ message: 'Project created successfully!' });
 
         // Create Project in Vecta
         const vectaProjectId = await createVectaProject({
@@ -66,7 +64,10 @@ const handleProjectCreated = async (req, res) => {
         winnerProjectData.externalUniqueID = vectaProjectNo
         // console.log(winnerProjectData.projedtGuid, winnerProjectData.shopGuid, winnerProjectData)
         const winnerProjectLinked = await updateWinnerProject(winnerProjectData.projectGuid, winnerProjectData.shopGuid, winnerProjectData);
-        console.log(winnerProjectLinked);
+
+        // Confirm project creation success to Winner
+        console.log("Project created successfully!")
+        res.status(200).json({ message: 'Project created successfully!' });
 
     } catch (error) {
 

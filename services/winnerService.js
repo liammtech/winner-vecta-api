@@ -29,6 +29,7 @@ const updateWinnerProject = async (projectGuid, shopGuid, projectData) => {
     const response = await winnerApi.put(`/projects/${projectGuid}`, projectData, {
         params: { shopGuid }
     });
+    console.log(`Updating Winner project with data: ${projectData}`)
     return response.data;
 };
 

@@ -14,6 +14,7 @@ app.use((req, res, next) => {
     next();
 });
 
+/*
 axios.interceptors.request.use(request => {
     console.log('Starting Request', request);
     return request;
@@ -21,6 +22,7 @@ axios.interceptors.request.use(request => {
     console.error('Error in request:', error);
     return Promise.reject(error);
 });
+*/
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('../config/config');
+const { logError, validateWebhookData, parseWebhookData, readWorkflowStatuses } = require('../utils/utils');
 
 let vectaToken = null;
 
@@ -44,6 +45,7 @@ const requestWithAuth = async (options) => {
 
     // Log the full URL for debugging
     const fullUrl = `${vectaApi.defaults.baseURL}${options.url}`;
+    
     console.log('Making request with options:', {
         method: options.method,
         url: fullUrl,
@@ -81,12 +83,28 @@ const getVectaCompanyById = async (accountNo) => {
     return response.data;
 };
 
-const getVectaCompanyByAccountNo = async (id) => {
-    const response = await requestWithAuth({
-        method: 'GET',
-        url: `/companies/accountno/${id}`
-    });
-    return response.data;
+const getVectaCompanyByAccountNo = async (accountNo) => {
+
+    try {
+        const response = await requestWithAuth({
+            method: 'GET',
+            url: `/companies/accountno/${accountNo}`
+        });
+
+        // console.log(response);
+        return response.id;
+    } catch (error) {
+        console.error('Error in getVectaProject:', {
+            message: error.message,
+            response: error.response ? {
+                status: error.response.status,
+                data: error.response.data
+            } : 'No response'
+        });
+
+        throw error;        
+    }
+
 };
 
 // Requests - Projects
@@ -148,23 +166,44 @@ const createVectaProject = async (projectData) => {
     }
 };
 
-
-const updateVectaProject = async (id, projectData) => {
+const updateVectaProject = async (projectData) => {
     const response = await requestWithAuth({
         method: 'PUT',
-        url: `/projects/${id}`,
+        url: `/projects`,
         data: projectData
     });
     return response.data;
 };
 
-const searchVectaProject = async (id, projectData) => {
+const searchVectaProject = async (projectNo) => {
+
+    formattedData = {
+        projectNo: projectNo
+    }
+
+    console.log(`searchVectaProject(): searching for project no. ${projectNo}`)
+
     const response = await requestWithAuth({
         method: 'POST',
         url: `/projects/search`,
-        data: projectData
+        data: formattedData
     });
-    return response.data;
+
+    console.log(`Response returned is ${response}`)
+
+    let projectId = null;
+
+    if (response.length === 1) {
+        projectId = response[0].id;
+        return projectId;
+        // console.log(`Vecta user GUID is: ${vectaUserId}`);
+    } else if (response.length > 1) {
+        console.log("Warning: multiple matches for searchVectaProject() criteria. Please check request data.");
+        throw error;
+    } else if (response.length === 0) {
+        console.log("No matches for searchVectaProject() criteria. Please check request data.")
+        throw error;
+    }
 };
 
 // Requests - Users
@@ -236,6 +275,18 @@ const getVectaWorkflowStage = async (id) => {
     return response.data;
 };
 
+// Cross References
+
+const getVectaStatusByWinnerStatus = async (winnerStatus) => {
+    const workflowStatuses = await readWorkflowStatuses(); // Get the mapping
+    const vectaStatus = workflowStatuses[winnerStatus]; // Lookup the Vecta status GUID
+
+    if (!vectaStatus) {
+        console.warn(`No Vecta status found for Winner status: ${winnerStatus}`);
+    }
+    return vectaStatus; // Return the corresponding Vecta status GUID or undefined
+};
+
 module.exports = {
     getVectaCompanyById,
     getVectaCompanyByAccountNo,
@@ -245,5 +296,6 @@ module.exports = {
     searchVectaProject,
     getVectaUser,
     searchVectaUserByName,
-    getVectaWorkflowStage
+    getVectaWorkflowStage,
+    getVectaStatusByWinnerStatus
 };
