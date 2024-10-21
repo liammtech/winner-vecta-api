@@ -5,6 +5,12 @@ module.exports = {
         apiUrl: process.env.WINNER_BASE_URL,
         apiKey: process.env.WINNER_API_KEY
     },
+    winnerShops: {
+        kitchenKitId: process.env.WINNER_SHOP_KITCHEN_KIT_ID,
+        blossomAvenueId: process.env.WINNER_SHOP_BLOSSOM_AVENUE_ID,
+        pimlicoId: process.env.WINNER_SHOP_PIMLICO_ID,
+        testShopId: process.env.WINNER_SHOP_TEST_SHOP_ID
+    },
     vecta: {
         apiUrl: process.env.VECTA_BASE_URL,
         apiKey: process.env.VECTA_API_KEY,
@@ -15,6 +21,11 @@ module.exports = {
         },
         itUserId: process.env.VECTA_IT_USER_ID,
         designWorkflowId: process.env.VECTA_DESIGN_WORKFLOW_ID
+    },
+    vectaUdValues: {
+        flexProjectNoId: process.env.VECTA_UD_FLEX_PROJECT_NO_ID,
+        routeToMarketId: process.env.VECTA_UD_ROUTE_TO_MARKET_ID,
+        lostToCompetitorId: process.env.VECTA_UD_LOST_TO_COMPETITOR_ID
     },
     port: 3000
 };

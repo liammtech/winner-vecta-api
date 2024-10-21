@@ -1,12 +1,12 @@
 const { filterWinnerProjects, getWinnerProject, updateWinnerProject, createWinnerProject, getWinnerProjectTypeGuids, getWinnerProjectStatusGuids, getWinnerShops, getWinnerCompanyUsers, getWinnerUserById } = require('../services/winnerService');
-const { getVectaCompanyById, getVectaCompanyByAccountNo, getVectaProject, createVectaProject, updateVectaProject, searchVectaProject, getVectaUser, searchVectaUserByName, getVectaWorkflowStage, getVectaStatusByWinnerStatus } = require('../services/vectaService');
+const { getVectaCompanyById, getVectaCompanyByAccountNo, getVectaProject, createVectaProject, updateVectaProject, searchVectaProject, updateVectaUdValues, getVectaUser, searchVectaUserByName, getVectaWorkflowStage, getVectaStatusByWinnerStatus } = require('../services/vectaService');
 const { logError, validateWebhookData, parseWebhookData, readWorkflowStatuses } = require('../utils/utils');
 const { winner } = require('../config/config');
 
 const handleProjectUpdated = async (req, res) => {
 
     try {
-
+        return;
         // See data from webhook request
         console.log(req.body);
 
@@ -25,9 +25,17 @@ const handleProjectUpdated = async (req, res) => {
         
         // Get Winner Project data
         const winnerProjectData = await getWinnerProject(winnerProjectGuid, winnerShopGuid);
+        console.log(`WINNER REFERENCE FOR VECTA PROJECT ID: ${winnerProjectData.externalUniqueID}`)
+
         if (!winnerProjectData.externalReference) {
-            console.log("Winner project must have valid external reference (company accountno. to continue. Terminating project update.");
-            res.status(200).json({ message: 'Project updated terminated (no external reference available).' });
+            console.log("Winner project must have valid external reference (company accountNo) to continue. Terminating project update.");
+            res.status(200).json({ message: 'Project updated terminated (no company account no. available).' });
+            return;
+        }
+
+        if (!winnerProjectData.externalReference) {
+            console.log("Winner project must have valid external unique ID (Vecta Project No.) to continue. Terminating project update.");
+            res.status(200).json({ message: 'Project updated terminated (no Vecta Project ID reference available).' });
             return;
         }
 
@@ -39,12 +47,16 @@ const handleProjectUpdated = async (req, res) => {
         const vectaCompanyId = await getVectaCompanyByAccountNo(winnerProjectData.externalReference);
         console.log(`Vecta company ID is: ${vectaCompanyId}`)
 
+        // EXTERNAL UNIQUE ID HAS DISAPPEARED BY NOW
+
         // Get Vecta Project GUID by Searching for Project No.
+
         const vectaProjectId = await searchVectaProject(winnerProjectData.externalUniqueID);
 
         // Get Vecta Project Data
         const vectaProjectData = await getVectaProject(vectaProjectId);
         console.log(vectaProjectData);
+
 
         // Format the data for Vecta Project update
         const updatedVectaProjectData = {
@@ -82,7 +94,6 @@ const handleProjectUpdated = async (req, res) => {
         console.log("Project updated successfully!")
         res.status(200).json({ message: 'Project updated successfully!' });
         
-
     } catch (error) {
 
         logError(error);

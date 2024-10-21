@@ -206,6 +206,31 @@ const searchVectaProject = async (projectNo) => {
     }
 };
 
+// Requests - Project UD Values
+
+const updateVectaUdValues = async (projectId, udValuesData) => {
+    try {
+        console.log(`Updating Vecta UD values with: `, JSON.stringify(udValuesData))
+        const response = await requestWithAuth({
+            method: 'POST',
+            url: `/projects/${projectId}/udvalues`,
+            data: udValuesData
+        });
+        console.log(`Did the UD values update? Response: ${response.status}`)
+        return response.data;    
+    } catch (error) {
+        console.error('Error in createVectaProject:', {
+            message: error.message,
+            response: error.response ? {
+                status: error.response.status,
+                data: error.response.data
+            } : 'No response'
+        });
+
+        throw error;
+    }
+};
+
 // Requests - Users
 
 const getVectaUser = async (id) => {
@@ -291,9 +316,10 @@ module.exports = {
     getVectaCompanyById,
     getVectaCompanyByAccountNo,
     getVectaProject, //
-    createVectaProject, //
+    createVectaProject,
     updateVectaProject,
     searchVectaProject,
+    updateVectaUdValues,
     getVectaUser,
     searchVectaUserByName,
     getVectaWorkflowStage,

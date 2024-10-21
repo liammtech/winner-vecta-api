@@ -71,6 +71,30 @@ const getWinnerUserById = async (id) => {
     return response.data;
 };
 
+// References - Shops
+
+const referToWinnerShopById = async (id) => {
+    switch(id) {
+        case config.winnerShops.kitchenKitId:
+            return "Kitchen Kit";
+        case config.winnerShops.blossomAvenueId:
+            return "Blossom Avenue";
+        case config.winnerShops.pimlicoId:
+            return "Pimlico";
+        case config.winnerShops.testShopId:
+            return "Test Shop"
+        default:
+            return "Shop TBC";
+    }
+};
+
+/*
+        kitchenKitId: process.env.WINNER_SHOP_KITCHEN_KIT_ID,
+        blossomAvenueId: process.env.WINNER_SHOP_BLOSSOM_AVENUE_ID,
+        pimlicoId: process.env.WINNER_SHOP_PIMLICO_ID,
+        testShopId: process.env.WINNER_SHOP_TEST_SHOP_ID
+*/
+
 // Export endpoint calls
 
 module.exports = {
@@ -82,5 +106,6 @@ module.exports = {
     getWinnerProjectStatusGuids, //
     getWinnerShops, //
     getWinnerCompanyUsers,
-    getWinnerUserById //
+    getWinnerUserById,
+    referToWinnerShopById
 };
