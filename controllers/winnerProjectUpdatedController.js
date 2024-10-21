@@ -30,7 +30,7 @@ const handleProjectUpdated = async (req, res) => {
         if (!winnerProjectData.externalReference) {
             console.log("Winner project must have valid external reference (company accountNo) to continue. Terminating project update.");
             res.status(200).json({ message: 'Project updated terminated (no company account no. available).' });
-            return;
+            return;''
         }
 
         if (!winnerProjectData.externalReference) {
@@ -63,7 +63,7 @@ const handleProjectUpdated = async (req, res) => {
             id: vectaProjectData.id, //ok
             name: winnerProjectData.projectName, //ok
             projectNo: vectaProjectData.projectNo, //ok
-            description: vectaProjectData.description, //ok for now - update later once UD API is sorted
+            description: winnerProjectData.extraInformation, //ok for now - update later once UD API is sorted
             workflowId: vectaProjectData.workflowId, //ok
             workflowStageId: vectaProjectStatusId, //ok
             primaryCompanyId: vectaCompanyId, //ok

@@ -17,10 +17,10 @@ const handleProjectCreated = async (req, res) => {
         const webhookValidation = await validateWebhookData(req.body);
         if (!webhookValidation) {
             res.status(400).json({ message: 'Invalid webhook data' });
-            console.log("Invalid webhook data")
+            console.log("Invalid webhook data");
             return;
         } else {
-            console.log("Webhook data is valid - Project-create route")
+            console.log("Webhook data is valid - Project-create route");
         }
 
         // Get new Winner project's projectGuid and shopGuid from webhook subject
