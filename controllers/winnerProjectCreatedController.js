@@ -57,6 +57,14 @@ const handleProjectCreated = async (req, res) => {
         // Add User-Defined (custom) values to Vecta Project // WORK IN PROGRESS
         const udValuesData = [
             {
+                "id": config.vectaUdValues.flexContactName,
+                "value": winnerProjectData.projectAddresses[0].contactName
+            },
+            {
+                "id": config.vectaUdValues.flexContactNo,
+                "value": winnerProjectData.projectAddresses[0].contactNumber
+            },
+            {
                 "id": config.vectaUdValues.flexProjectNoId,
                 "value": winnerProjectData.projectId.toString()
             },

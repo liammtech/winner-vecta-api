@@ -11,6 +11,15 @@ module.exports = {
         pimlicoId: process.env.WINNER_SHOP_PIMLICO_ID,
         testShopId: process.env.WINNER_SHOP_TEST_SHOP_ID
     },
+    winnerCompetitors: {
+        bandqId: process.env.WINNER_COMPETITOR_BANDQ_ID,
+        benchmarxId: process.env.WINNER_COMPETITOR_BENCHMARX_ID,
+        homebaseId: process.env.WINNER_COMPETITOR_HOMEBASE_ID,
+        howdensId: process.env.WINNER_COMPETITOR_HOWDENS_ID,
+        selcoId: process.env.WINNER_COMPETITOR_SELCO_ID,
+        wickesId: process.env.WINNER_COMPETITOR_WICKES_ID,
+        wrenID: process.env.WINNER_COMPETITOR_WREN_ID
+    },
     vecta: {
         apiUrl: process.env.VECTA_BASE_URL,
         apiKey: process.env.VECTA_API_KEY,

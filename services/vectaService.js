@@ -107,6 +107,8 @@ const getVectaCompanyByAccountNo = async (accountNo) => {
 
 };
 
+// Requests - Contacts
+
 // Requests - Projects
 
 const getVectaProject = async (id) => {
