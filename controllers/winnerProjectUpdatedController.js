@@ -1,4 +1,4 @@
-const { filterWinnerProjects, getWinnerProject, updateWinnerProject, createWinnerProject, getWinnerProjectTypeGuids, getWinnerProjectStatusGuids, getWinnerShops, getWinnerCompanyUsers, getWinnerUserById } = require('../services/winnerService');
+const { filterWinnerProjects, getWinnerProject, updateWinnerProject, createWinnerProject, getWinnerProjectTypeGuids, getWinnerProjectStatusGuids, getWinnerCompetitorName, getWinnerShops, getWinnerCompanyUsers, getWinnerUserById } = require('../services/winnerService');
 const { getVectaCompanyById, getVectaCompanyByAccountNo, getVectaProject, createVectaProject, updateVectaProject, searchVectaProject, updateVectaUdValues, getVectaUser, searchVectaUserByName, getVectaWorkflowStage, getVectaStatusByWinnerStatus } = require('../services/vectaService');
 const { logError, validateWebhookData, parseWebhookData, readWorkflowStatuses } = require('../utils/utils');
 const config = require('../config/config');
@@ -31,7 +31,7 @@ const handleProjectUpdated = async (req, res) => {
         
         // Get Winner Project data
         const winnerProjectData = await getWinnerProject(winnerProjectGuid, winnerShopGuid);
-        console.log(`WINNER REFERENCE FOR VECTA PROJECT ID: ${winnerProjectData.extraInformation}`)
+        console.log(`WINNER REFERENCE FOR VECTA PROJECT ID: ${winnerProjectData.externalUniqueID}`)
 
         if (!winnerProjectData.externalReference) {
             console.log("Winner project must have valid external reference (company accountNo) to continue. Terminating project update.");
@@ -62,7 +62,6 @@ const handleProjectUpdated = async (req, res) => {
         // Get Vecta Project Data
         const vectaProjectData = await getVectaProject(vectaProjectId);
         console.log(vectaProjectData);
-
 
         // Format the data for Vecta Project update
         const updatedVectaProjectData = {
@@ -98,10 +97,11 @@ const handleProjectUpdated = async (req, res) => {
         const updatedVectaProject = await updateVectaProject(updatedVectaProjectData);
 
         // Handle Lost to Competitor Status
+        const competitorName = await getWinnerCompetitorName(winnerProjectData.lostToCompetitor_StandardText);
         const udValuesData = [
             {
                 "id": config.vectaUdValues.lostToCompetitorId,
-                "value": winnerProjectData.lostToCompetitor_StandardText
+                "value": competitorName
             }
         ]
         const updatedVectaUdValues = await updateVectaUdValues(vectaProjectId, udValuesData);

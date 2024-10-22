@@ -52,6 +52,16 @@ const getWinnerProjectStatusGuids = async () => {
     return response.data;
 };
 
+// Requests - Projects - Competitors
+
+const getWinnerCompetitorName = async (competitorId) => {
+    const response = await winnerApi.get(`/projects/competitors`);
+    console.log(`COMPETITOR NAME IS: ${response.competitorId}`)
+    competitorName = response.data[competitorId];
+
+    return competitorName;
+};
+
 // Requests - Shops
 
 const getWinnerShops = async () => {
@@ -99,12 +109,13 @@ const referToWinnerShopById = async (id) => {
 
 module.exports = {
     filterWinnerProjects, 
-    getWinnerProject, //
-    updateWinnerProject, //
+    getWinnerProject,
+    updateWinnerProject,
     createWinnerProject,
     getWinnerProjectTypeGuids,
-    getWinnerProjectStatusGuids, //
-    getWinnerShops, //
+    getWinnerProjectStatusGuids,
+    getWinnerCompetitorName,
+    getWinnerShops,
     getWinnerCompanyUsers,
     getWinnerUserById,
     referToWinnerShopById
