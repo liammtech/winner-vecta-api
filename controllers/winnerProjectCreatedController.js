@@ -7,8 +7,6 @@ const handleProjectCreated = async (req, res) => {
 
     // Wrap all logic in try/catch block
     try {
-
-
         console.log(JSON.stringify(config))
         // See data from webhook request
         console.log(req.body);
@@ -75,7 +73,7 @@ const handleProjectCreated = async (req, res) => {
         console.log(vectaProjectNo);
 
         // Add Vecta Project number to Winner Project's External Unique ID field - this then links the two projects
-        winnerProjectData.externalUniqueID = vectaProjectNo
+        winnerProjectData.externalUniqueID = vectaProjectNo // Temporarily housing here until externalUniqueID issue is sorted
         const winnerProjectLinked = await updateWinnerProject(winnerProjectData.projectGuid, winnerProjectData.shopGuid, winnerProjectData);
 
         // Confirm project creation success to Winner

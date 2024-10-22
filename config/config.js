@@ -23,6 +23,8 @@ module.exports = {
         designWorkflowId: process.env.VECTA_DESIGN_WORKFLOW_ID
     },
     vectaUdValues: {
+        flexContactName: process.env.VECTA_UD_FLEX_CONTACT_NAME_ID,
+        flexContactNo: process.env.VECTA_UD_FLEX_CONTACT_NO_ID,
         flexProjectNoId: process.env.VECTA_UD_FLEX_PROJECT_NO_ID,
         routeToMarketId: process.env.VECTA_UD_ROUTE_TO_MARKET_ID,
         lostToCompetitorId: process.env.VECTA_UD_LOST_TO_COMPETITOR_ID
